@@ -10,7 +10,7 @@ data=np.load("C:/Users/ass85/PycharmProjects/face_recognition_project/.venv/Scri
 
 images=data["images"]
 labels=data["labels"]
-
+print(labels)
 images = preprocess_input(images)
 
 # Charger le modèle VGG16 pré-entraîné
@@ -21,4 +21,6 @@ embeddings = vgg_model.predict(images)
 np.savez_compressed("embeddings_images_dataset.npz", images=embeddings, labels=labels)
 
 print(embeddings.shape)
+
+
 

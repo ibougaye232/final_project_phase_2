@@ -4,6 +4,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from numpy import load
 from sklearn.preprocessing import LabelEncoder
+from sklearn import svm
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+import joblib
+
 
 data=np.load("embeddings_images_dataset.npz")
 
@@ -13,14 +18,15 @@ labels=data["labels"]
 images2=images.reshape(105,-1)
 
 images3=images2/255
+print(images3)
 
 
 
 encoder=LabelEncoder()
 
-labels2=encoder.fit_transform(labels)
+labels3=encoder.fit_transform(labels)
 
-labels3=to_categorical(labels2)
+
 
 
 
@@ -40,3 +46,23 @@ print("one \n",x_train.shape)
 print("two \n",x_test.shape)
 print("three \n",y_train.shape)
 print("four \n",y_test.shape )
+
+print("the vars are:",np.var(x_train),"and",np.var(x_test))
+
+model=svm.SVC(C=100,kernel="sigmoid")
+
+model.fit(x_train,y_train)
+pred=model.predict(x_test)
+
+print("the accuracy is:",accuracy_score(y_test,pred))
+
+print("the report is:",classification_report(y_test,pred))
+
+pred2=model.predict(images3)
+
+print("the final accuracy is:",accuracy_score(labels3,pred2))
+
+#np.savez_compressed("final_embeddings_images_dataset.npz", images=images3, labels=labels3)
+
+#joblib.dump(model, 'trained_model2.joblib')
+
